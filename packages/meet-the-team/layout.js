@@ -1,7 +1,9 @@
 Template.meet_the_team_layout.onCreated(function () {
     this.venue = new ReactiveVar();
     this.correctCount = new ReactiveVar(0);
+    this.incorrectCount = new ReactiveVar(0);
     this.disabled = new ReactiveVar(false);
+    this.timer = new ReactiveVar('');
 
     var self = this;
 
@@ -13,6 +15,30 @@ Template.meet_the_team_layout.onCreated(function () {
     self.autorun(function () {
         console.log(self.correctCount.get());
     });
+});
+
+Template.meet_the_team_layout.onRendered(function () {
+
+    var self = this;
+
+    function startTimer(duration) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            self.timer.set(minutes + " : " + seconds);
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+        }, 1000);
+    }
+
+    startTimer(60);
 });
 
 Template.meet_the_team_layout.helpers({
@@ -42,6 +68,10 @@ Template.meet_the_team_layout.helpers({
 
     disabled: function () {
         return Template.instance().disabled.get() ? 'disabled' : '';
+    },
+
+    timer: function () {
+        return Template.instance().timer.get();
     }
 });
 
@@ -49,6 +79,7 @@ Template.meet_the_team_layout.events({
     'click #partner': function (e, t) {
 
         var correctCount = t.correctCount.get();
+        var incorrectCount = t.incorrectCount.get();
         var disabled = t.disabled.get();
 
         if (!disabled && t.venue.get().partner) {
@@ -57,6 +88,8 @@ Template.meet_the_team_layout.events({
             MongoApiClient.call('Venues_getVenue', function (e, venue) {
                 t.venue.set(venue);
             });
+        } else if (!t.venue.get().partner) {
+            t.incorrectCount.set(incorrectCount + 1);
         }
     },
 
@@ -71,6 +104,8 @@ Template.meet_the_team_layout.events({
             MongoApiClient.call('Venues_getVenue', function (e, venue) {
                 t.venue.set(venue);
             });
+        } else if (!t.venue.get().promoted) {
+            t.incorrectCount.set(incorrectCount + 1);
         }
     }
 });

@@ -4,7 +4,8 @@ var packages = {
         'iron:router@1.0.9',
         'semantic:ui-css@2.1.2',
         'mrt:jquery-ui',
-        'reactive-var'
+        'reactive-var',
+        'mrt:moment'
     ]
 };
 
