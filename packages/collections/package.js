@@ -4,6 +4,7 @@ Package.onUse(function (api) {
 
     api.addFiles(['collections.js']);
     api.addFiles(['methods/users.js'], 'server');
+    api.addFiles(['publications/users.js'], 'server');
 
     api.export('Users');
 });
