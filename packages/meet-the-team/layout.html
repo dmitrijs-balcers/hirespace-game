@@ -1,0 +1,41 @@
+<template name="meet_the_team_layout">
+    <div class="ui grid">
+        <div class="five wide column"></div>
+        <div class="six wide column">
+            {{#with venue}}
+                <div class="row" style="height: 100px"></div>
+                <div class="row"><img class="ui fluid image" src="{{image}}"></div>
+                <div class="row" style="height: 50px"></div>
+                <div class="row">
+                    <div class="ui grid">
+                        <div class="eight wide column">
+                            <button id="promoted" class="massive {{disabled}} fluid ui green button">Promoted</button>
+                        </div>
+                        <div class="eight wide column">
+                            <button id="partner" class="massive {{disabled}} fluid ui green button">Partner</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ui grid">
+                        <div class="five wide column"></div>
+                        <div class="six wide column">
+                            <div class="ui center aligned segment">
+                                Counter
+                            </div>
+                        </div>
+                        <div class="five wide column">
+                            <div class="six wide column">
+                                <div class="ui center aligned segment">
+                                    Correct {{correctCount}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"></div>
+            {{/with}}
+        </div>
+        <div class="five wide column"></div>
+    </div>
+</template>

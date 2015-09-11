@@ -19,6 +19,8 @@ Template.welcome_layout.helpers({
 
 Template.welcome_layout.events({
     'click #submit': function () {
-        Meteor.call('Users_createUser', $('#name').val());
+        Meteor.call('Users_createUser', $('#name').val(), function (err, id) {
+            Router.go('meet_the_team', {id: id});
+        });
     }
 });

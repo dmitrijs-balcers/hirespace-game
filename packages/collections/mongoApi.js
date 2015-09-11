@@ -1,0 +1,1 @@
+MongoApiClient = DDP.connect('http://localhost:3030/');
