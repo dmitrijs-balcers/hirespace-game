@@ -66,6 +66,10 @@ Template.meet_the_team_layout.helpers({
         return Template.instance().correctCount.get();
     },
 
+    incorrectCount: function () {
+        return Template.instance().incorrectCount.get();
+    },
+
     disabled: function () {
         return Template.instance().disabled.get() ? 'disabled' : '';
     },
@@ -83,9 +87,11 @@ Template.meet_the_team_layout.events({
         var disabled = t.disabled.get();
 
         if (!disabled && t.venue.get().partner) {
+            t.disabled.set(true);
             t.correctCount.set(correctCount + 1);
 
             MongoApiClient.call('Venues_getVenue', function (e, venue) {
+                t.disabled.set(false);
                 t.venue.set(venue);
             });
         } else if (!t.venue.get().partner) {
@@ -96,12 +102,15 @@ Template.meet_the_team_layout.events({
     'click #promoted': function (e, t) {
 
         var correctCount = t.correctCount.get();
+        var incorrectCount = t.incorrectCount.get();
         var disabled = t.disabled.get();
 
         if (!disabled && t.venue.get().promoted) {
+            t.disabled.set(true);
             t.correctCount.set(correctCount + 1);
 
             MongoApiClient.call('Venues_getVenue', function (e, venue) {
+                t.disabled.set(false);
                 t.venue.set(venue);
             });
         } else if (!t.venue.get().promoted) {
