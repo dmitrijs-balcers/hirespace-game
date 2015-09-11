@@ -33,12 +33,19 @@ Template.meet_the_team_layout.onRendered(function () {
             self.timer.set(minutes + " : " + seconds);
 
             if (--timer < 0) {
+
+                if(self.correctCount.get() <= self.incorrectCount.get()) {
+                    $('#sadFace').modal('show');
+                } else {
+                    $('#happyFace').modal('show');
+                }
+
                 timer = duration;
             }
         }, 1000);
     }
 
-    startTimer(60);
+    startTimer(10);
 });
 
 Template.meet_the_team_layout.helpers({
